@@ -2,9 +2,22 @@ package com.techelevator;
 
 import javax.sql.DataSource;
 
+
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import com.techelevator.campground.*;
+import com.techelevator.park.*;
+import com.techelevator.reservation.*;
+import com.techelevator.site.*;
+import com.techelevator.view.*;
+
 public class CampgroundCLI {
+	
+	private Menu menu;
+	private CampgroundDAO campgroundDAO;
+	private ReservationDAO reservationDAO;
+	private SiteDAO siteDAO;
+	private ParkDAO parkDAO;
 
 	public static void main(String[] args) {
 		BasicDataSource dataSource = new BasicDataSource();

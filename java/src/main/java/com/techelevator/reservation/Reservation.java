@@ -77,10 +77,6 @@ public class Reservation {
 	public String toString() {
 		return "Reservation [reservation_id=" + reservation_id + ", site_id=" + site_id + ", name=" + name
 				+ ", from_date=" + from_date + ", to_date=" + to_date + ", create_date=" + create_date + "]";
-	}
-	
-	
-	
-	
+	}	
 	
 }
