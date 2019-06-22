@@ -1,5 +1,8 @@
 package com.techelevator.reservation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Reservation {
 	
 	/*
@@ -9,9 +12,22 @@ public class Reservation {
 	private long reservation_id;
 	private long site_id;
 	private String name;
-	private String from_date;
-	private String to_date;
-	private String create_date;
+	private LocalDate from_date;
+	private LocalDate to_date;
+	private LocalDate create_date;
+	
+	/*
+	 * Constructors
+	 */
+	
+	public Reservation(long site_id, String name, LocalDate from_date, LocalDate to_date) {
+		this.reservation_id = 0;
+		this.site_id = site_id;
+		this.name = name;
+		this.from_date = from_date;
+		this.to_date = to_date;
+		this.create_date = LocalDate.now();
+	}
 	
 	/*
 	 * Methods -- Setters
@@ -29,15 +45,15 @@ public class Reservation {
 		this.name = name;
 	}
 	
-	public void setFrom_date(String from_date) {
+	public void setFrom_date(LocalDate from_date) {
 		this.from_date = from_date;
 	}
 	
-	public void setTo_date(String to_date) {
+	public void setTo_date(LocalDate to_date) {
 		this.to_date = to_date;
 	}
 	
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(LocalDate create_date) {
 		this.create_date = create_date;
 	}
 
@@ -57,15 +73,15 @@ public class Reservation {
 		return name;
 	}
 
-	public String getFrom_date() {
+	public LocalDate getFrom_date() {
 		return from_date;
 	}
 
-	public String getTo_date() {
+	public LocalDate getTo_date() {
 		return to_date;
 	}
 
-	public String getCreate_date() {
+	public LocalDate getCreate_date() {
 		return create_date;
 	}
 
