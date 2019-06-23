@@ -21,16 +21,37 @@ public class JDBCSiteDAO implements SiteDAO{
 	}
 
 	@Override
-	public List<Site> searchSiteAvailability(long campground_id, String from_date, String to_date) {
+	public List<Site> searchSiteAvailabilityByCampground(long campground_id, String from_date, String to_date) {
 		ArrayList<Site> sites = new ArrayList<Site>();
 		LocalDate from = LocalDate.parse(from_date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate to = LocalDate.parse(to_date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
 		String sqlGetAvailableSites = "SELECT * FROM site WHERE site_id NOT IN " + 
-								 	  "(SELECT site_id FROM reservation " + 
-								 	  "WHERE from_date BETWEEN ? AND ? " +
-								 	  "OR to_date BETWEEN ? AND ?) AND campground_id = ? LIMIT 5";
+			 	  					  "(SELECT site_id FROM reservation " + 
+			 	  					  "WHERE from_date BETWEEN ? AND ? " +
+			 	  					  "OR to_date BETWEEN ? AND ?) AND campground_id = ? LIMIT 5";
+		
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAvailableSites, from, to, from, to, campground_id);
+		while(results.next()) {
+			Site theSite = mapRowToCampground(results);
+			sites.add(theSite);
+		}
+		return sites;
+	}
+	
+	@Override
+	public List<Site> searchSiteAvailabilityByPark(long park_id, String from_date, String to_date) {
+		ArrayList<Site> sites = new ArrayList<Site>();
+		LocalDate from = LocalDate.parse(from_date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate to = LocalDate.parse(to_date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		String sqlGetAvailableSites = "SELECT * FROM site WHERE site_id NOT IN " + 
+									  "(SELECT site_id FROM reservation " + 
+									  "WHERE from_date BETWEEN ? AND ? " +
+									  "OR to_date BETWEEN ? AND ?) AND campground_id IN " +
+									  "(SELECT campground_id FROM campground WHERE park_id = ?) LIMIT 5";
+		
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAvailableSites, from, to, from, to, park_id);
 		while(results.next()) {
 			Site theSite = mapRowToCampground(results);
 			sites.add(theSite);
